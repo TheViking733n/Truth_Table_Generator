@@ -1,5 +1,5 @@
 # Truth_Table_Generator
-> ASCII Truth Table Generator program written purely in C++
+#### ASCII Truth Table Generator program written purely in C++
 
 
 ## Implementation details:
