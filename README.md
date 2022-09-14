@@ -2,7 +2,7 @@
 Small C++ code that generates an ASCII Truth Table for any Boolean Expression
 
 ## Implementation details:
-First the user input parsed by converting it into lowercase, removing spaces, inserting '.' operator in appropiate places, and the number of distinct variables are computed and stored in a string. Then the boolean expression is converted into postfix notation. Now the postfix expression can be easily calculated, so bruteforce on all variables is applied to generate and print the Truth Table.
+First the user input parsed by converting it into lowercase, removing spaces, inserting '.' operator in appropiate places, and the number of distinct variables are computed and stored in a string. Then the boolean expression is converted into postfix notation. Now the postfix expression can be easily evaluated, so bruteforce on all variables is applied to generate and print the Truth Table.
 
 
 ## Example Outputs:
