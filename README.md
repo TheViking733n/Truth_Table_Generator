@@ -1,6 +1,10 @@
 # Truth_Table_Generator
 Small C++ code that generates an ASCII Truth Table for any Boolean Expression
 
+## Implementation details:
+First the user input parsed by converting it into lowercase, removing spaces, inserting '.' operator in appropiate places, and the number of distinct variables are computed and stored in a string. Then the boolean expression is converted into postfix notation. Now the postfix expression can be easily calculated, so bruteforce on all variables is applied to generate and print the Truth Table.
+
+
 ## Example Outputs:
 
 ```
@@ -25,6 +29,31 @@ F = A + (B)
 +-----+---+
 ```
 
+```
+Truth Table Generator
+
+Use ' for NOT
+Use + for OR
+Use . for AND (optional)
+Use () for grouping
+Example: (A' + B)C'+(D' + E)
+
+Enter any boolean expression (case-insensitive):
+F = (X' + Y)Z'
+
++-------+---+
+| x y z | F |
++-------+---+
+| 0 0 0 | 1 |
+| 0 0 1 | 0 |
+| 0 1 0 | 1 |
+| 0 1 1 | 0 |
+| 1 0 0 | 0 |
+| 1 0 1 | 0 |
+| 1 1 0 | 1 |
+| 1 1 1 | 0 |
++-------+---+
+```
 
 ```
 Truth Table Generator
@@ -52,29 +81,3 @@ F = a.((b + c)a + b)
 +-------+---+
 ```
 
-
-```
-Truth Table Generator
-
-Use ' for NOT
-Use + for OR
-Use . for AND (optional)
-Use () for grouping
-Example: (A' + B)C'+(D' + E)
-
-Enter any boolean expression (case-insensitive):
-F = (X' + Y)Z'
-
-+-------+---+
-| x y z | F |
-+-------+---+
-| 0 0 0 | 1 |
-| 0 0 1 | 0 |
-| 0 1 0 | 1 |
-| 0 1 1 | 0 |
-| 1 0 0 | 0 |
-| 1 0 1 | 0 |
-| 1 1 0 | 1 |
-| 1 1 1 | 0 |
-+-------+---+
-```
