@@ -1,6 +1,80 @@
+/**
+ * @file truth_table_gen.cpp
+ * @author The Viking
+ * @brief Generates truth tables for a given boolean expression
+ * @version 0.1
+ * @date 2022-09-15
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #include <iostream>
 
 using namespace std;
+
+
+// Function Prototypes
+bool isAlphabet(char);
+string getVariables(string);
+string parseInput(string);
+string toPostfix(string);
+int evaluate(string, bool *);
+
+
+int main() {
+    
+    string input, exp, vars, postfix, hor_rule;
+    bool value[60]; // To store value of all variables
+    char y = 'F';   // Output function
+    int n;
+
+    cout << "Truth Table Generator\n\n"
+         << "Use ' for NOT\n"
+         << "Use + for OR\n"
+         << "Use . for AND (optional)\n"
+         << "Use () for grouping\n"
+         << "Example: (A' + B)C'+(D' + E)\n\n"
+         << "Enter any boolean expression (case-insensitive):\n"
+         << y << " = ";
+    
+    getline(cin, input);
+    exp = parseInput(input);
+    vars = getVariables(exp);
+    postfix = toPostfix(exp);
+    n = vars.length();
+
+    // Printing the table in ASCII format
+    hor_rule = "+-";
+    for (int i = 0; i < n; i++) hor_rule += "--";
+    hor_rule += "+---+\n";
+
+    // Printing the headers
+    cout << "\n" << hor_rule << "| ";
+    for (int j = 0; j < n; j++) cout << vars[j] << " ";
+    cout << "| " << y << " |\n" << hor_rule;
+    
+    // Bruteforcing all the possible values of variables
+    for (int i = 0; i < (1 << n); i++) {
+        for (int j = 0; j < n; j++) {
+            bool val = i & (1 << j);
+            char variable = vars[n - 1 - j];
+            value[variable - 'A'] = val;
+            value[toupper(variable) - 'A'] = !val;
+        }
+        // Printing a row
+        cout << "| ";
+        for (int j = 0; j < n; j++)
+            cout << value[vars[j] - 'A'] << " ";
+        cout << "| " << evaluate(postfix, value) << " |\n";
+    }
+
+    cout << hor_rule;
+    
+    return 0;
+}
+
 
 bool isAlphabet(char c) {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
@@ -20,7 +94,6 @@ string getVariables(string input) {
     }
     return variables;
 }
-
 
 string parseInput(string input) {
     string parsed = "";
@@ -95,7 +168,6 @@ string toPostfix(string exp) {
     return postfix;    
 }
 
-
 int evaluate(string postfix, bool* value) {
     string stack = "";
     int n = postfix.length();
@@ -121,57 +193,4 @@ int evaluate(string postfix, bool* value) {
     }
 
     return stack.back();
-}
-
-
-int main() {
-    
-    string input, exp, vars, postfix, hor_rule;
-    bool value[60]; // To store value of all variables
-    char y = 'F';   // Output function
-    int n;
-
-    cout << "Truth Table Generator\n\n"
-         << "Use ' for NOT\n"
-         << "Use + for OR\n"
-         << "Use . for AND (optional)\n"
-         << "Use () for grouping\n"
-         << "Example: (A' + B)C'+(D' + E)\n\n"
-         << "Enter any boolean expression (case-insensitive):\n"
-         << y << " = ";
-    
-    getline(cin, input);
-    exp = parseInput(input);
-    vars = getVariables(exp);
-    postfix = toPostfix(exp);
-    n = vars.length();
-
-    // Printing the table in ASCII format
-    hor_rule = "+-";
-    for (int i = 0; i < n; i++) hor_rule += "--";
-    hor_rule += "+---+\n";
-
-    // Printing the headers
-    cout << "\n" << hor_rule << "| ";
-    for (int j = 0; j < n; j++) cout << vars[j] << " ";
-    cout << "| " << y << " |\n" << hor_rule;
-    
-    // Bruteforcing all the possible values of variables
-    for (int i = 0; i < (1 << n); i++) {
-        for (int j = 0; j < n; j++) {
-            bool val = i & (1 << j);
-            char variable = vars[n - 1 - j];
-            value[variable - 'A'] = val;
-            value[toupper(variable) - 'A'] = !val;
-        }
-        // Printing a row
-        cout << "| ";
-        for (int j = 0; j < n; j++)
-            cout << value[vars[j] - 'A'] << " ";
-        cout << "| " << evaluate(postfix, value) << " |\n";
-    }
-
-    cout << hor_rule;
-    
-    return 0;
 }
